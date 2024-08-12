@@ -1,7 +1,7 @@
-import { StyleSheet, View } from 'react-native'
-import { ThemedText as Text } from '../ThemedText'
+import { StyleSheet, View, Text } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useState } from 'react'
+import { CalendarSlot } from './CalendarSlot'
 
 export function Calendar() {
   const [firstDay, setFirstDay] = useState(new Date())
@@ -19,10 +19,11 @@ export function Calendar() {
       calendarDays.push(
         <View key={i} style={styles.calendar}>
           <Text style={styles.text}>{day.slice(0, 3)}</Text>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <Text style={[styles.text, { marginRight: 2, fontWeight: 'bold' }]}>{dayOfMonth}</Text>
             <Text style={[styles.text, { fontWeight: 'bold' }]}>{month.slice(0, 4)}</Text>
           </View>
+          <CalendarSlot />
         </View>
       )
     }
@@ -62,10 +63,10 @@ export function Calendar() {
 const styles = StyleSheet.create({
   calendar: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginHorizontal: 10,
   },
   text: {
+    textAlign: 'center',
     fontSize: 12,
   },
 })
