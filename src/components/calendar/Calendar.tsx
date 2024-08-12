@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { CalendarSlot } from './CalendarSlot'
 
 export function Calendar() {
@@ -23,12 +23,14 @@ export function Calendar() {
             <Text style={[styles.text, { marginRight: 2, fontWeight: 'bold' }]}>{dayOfMonth}</Text>
             <Text style={[styles.text, { fontWeight: 'bold' }]}>{month.slice(0, 4)}</Text>
           </View>
-          <CalendarSlot />
+          <MemoizedSlot />
         </View>
       )
     }
     return calendarDays
   }
+
+  const MemoizedSlot = memo(CalendarSlot)
 
   const onPressArrow = (choice: string) => {
     if (choice === 'back') {

@@ -1,21 +1,38 @@
 import { useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 
 export function CalendarSlot() {
   const slots = generateRandomSlots(Math.floor(Math.random() * 10))
-  const [selected, setSelected] = useState<number | null>(null)
-  const onPress = (index: number) => setSelected(index)
 
   return (
     <View>
       {slots
         .sort((a, b) => a.start.localeCompare(b.start))
         .map((slot, index) => (
-          <View key={index} style={styles.container}>
-            <Text>{new Date(slot.start).toLocaleTimeString('fr', { hour: 'numeric', minute: 'numeric' })}</Text>
-          </View>
+          <Slot key={index} slot={slot} />
         ))}
     </View>
+  )
+}
+
+const Slot = ({ slot }: any) => {
+  const [click, setClick] = useState(0)
+  const onPress = () => {
+    if (click === 3) return setClick(0)
+    setClick((prev) => prev + 1)
+  }
+
+  return (
+    <TouchableOpacity
+      style={[styles.container, click === 2 && { backgroundColor: 'green' }, click === 3 && { backgroundColor: 'blue' }]}
+      onPress={onPress}>
+      <Text>
+        {new Date(slot.start).toLocaleTimeString('fr', {
+          hour: 'numeric',
+          minute: 'numeric',
+        })}
+      </Text>
+    </TouchableOpacity>
   )
 }
 
@@ -46,7 +63,6 @@ const styles = StyleSheet.create({
     padding: 7,
     paddingVertical: 7,
     borderRadius: 5,
-    borderColor: 'gray',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 15,
